@@ -16,6 +16,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import { Event, MeetingRoom, People } from '@material-ui/icons';
+import { BrowserRouter as Router, Link, Route } from 'react-router-dom';
 
 const drawerWidth = 240;
 
@@ -66,18 +67,22 @@ function RespDrawer(props) {
       <div className={classes.toolbar} />
       <Divider />
       <List>
-        <ListItem button>
-          <ListItemIcon>
-            <People />
-          </ListItemIcon>
-          <ListItemText primary="Doctors" />
-        </ListItem>
-        <ListItem button>
-          <ListItemIcon>
-            <Event />
-          </ListItemIcon>
-          <ListItemText primary="Appointments" />
-        </ListItem>
+        <Link to={'/dashboard/doctors'}>
+          <ListItem button>
+            <ListItemIcon>
+              <People />
+            </ListItemIcon>
+            <ListItemText primary="Doctors" />
+          </ListItem>
+        </Link>
+        <Link to={'/dashboard/appointments'}>
+          <ListItem button>
+            <ListItemIcon>
+              <Event />
+            </ListItemIcon>
+            <ListItemText primary="Appointments" />
+          </ListItem>
+        </Link>
         <ListItem
           button
           onClick={() => onRouteChange('signout')}>
@@ -93,104 +98,73 @@ function RespDrawer(props) {
   const container = window !== undefined ? () => window().document.body : undefined;
 
   return (
-    <div className={classes.root}>
-      <CssBaseline />
-      <AppBar position="fixed" className={classes.appBar}>
-        <Toolbar>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            edge="start"
-            onClick={handleDrawerToggle}
-            className={classes.menuButton}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" noWrap>
-            Medical Portal
+    <Router>
+      <div className={classes.root}>
+        <CssBaseline />
+        <AppBar position="fixed" className={classes.appBar}>
+          <Toolbar>
+            <IconButton
+              color="inherit"
+              aria-label="open drawer"
+              edge="start"
+              onClick={handleDrawerToggle}
+              className={classes.menuButton}
+            >
+              <MenuIcon />
+            </IconButton>
+            <Typography variant="h6" noWrap>
+              Medical Portal
           </Typography>
-        </Toolbar>
-      </AppBar>
-      <nav className={classes.drawer} aria-label="mailbox folders">
-        <Hidden smUp implementation="css">
-          <Drawer
-            container={container}
-            variant="temporary"
-            anchor={theme.direction === 'rtl' ? 'right' : 'left'}
-            open={mobileOpen}
-            onClose={handleDrawerToggle}
-            classes={{
-              paper: classes.drawerPaper,
-            }}
-            ModalProps={{
-              keepMounted: true,
-            }}
-          >
-            {drawer}
-          </Drawer>
-        </Hidden>
-        <Hidden xsDown implementation="css">
-          <Drawer
-            classes={{
-              paper: classes.drawerPaper,
-            }}
-            variant="permanent"
-            open
-          >
-            {drawer}
-          </Drawer>
-        </Hidden>
-      </nav>
-      <main className={classes.content}>
-        <div className={classes.toolbar} />
-          <Doctors user={user}/>
-          <Appointments agenda={filteredAppointments} />
-      </main>
-    </div>
+          </Toolbar>
+        </AppBar>
+        <nav className={classes.drawer} aria-label="mailbox folders">
+          <Hidden smUp implementation="css">
+            <Drawer
+              container={container}
+              variant="temporary"
+              anchor={theme.direction === 'rtl' ? 'right' : 'left'}
+              open={mobileOpen}
+              onClose={handleDrawerToggle}
+              classes={{
+                paper: classes.drawerPaper,
+              }}
+              ModalProps={{
+                keepMounted: true,
+              }}
+            >
+              {drawer}
+            </Drawer>
+          </Hidden>
+          <Hidden xsDown implementation="css">
+            <Drawer
+              classes={{
+                paper: classes.drawerPaper,
+              }}
+              variant="permanent"
+              open
+            >
+              {drawer}
+            </Drawer>
+          </Hidden>
+        </nav>
+        <main className={classes.content}>
+          <div className={classes.toolbar} />
+          <Route 
+            path="/dashboard/doctors" 
+            render={(props) => (
+              <Doctors {...props} user={user}/>
+            )}
+          />
+          <Route 
+            path="/dashboard/appointments" 
+            render={(props) => (
+              <Appointments {...props} agenda={filteredAppointments} />
+            )}
+          />
+        </main>
+      </div>
+    </Router>
   );
 }
 
 export default RespDrawer;
-
-
-
-
-
-
-/* import React from 'react';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import { AddBox, MeetingRoom, People } from '@material-ui/icons'
-
-const Drawer = (props) => {
-  const { onRouteChange } = props;
-  return (
-    <div>
-      <ListItem button>
-        <ListItemIcon>
-          <People />
-        </ListItemIcon>
-        <ListItemText primary="Doctors" />
-      </ListItem>
-      <ListItem button>
-        <ListItemIcon>
-          <AddBox />
-        </ListItemIcon>
-        <ListItemText primary="Add Doctor" />
-      </ListItem>
-      <ListItem
-        button
-        onClick={() => onRouteChange('signout')}>
-        <ListItemIcon>
-          <MeetingRoom />
-        </ListItemIcon>
-        <ListItemText primary="Sign Out" />
-      </ListItem>
-    </div>
-
-  );
-}
-
-export default Drawer;
- */

@@ -5,6 +5,8 @@ import Register from './components/Register/Register'
 import Home from './components/Home/Home'
 import { users, doctors, appointments } from './database/database';
 import AddAppointment from './context/AddAppointment';
+import DateFnsUtils from '@date-io/date-fns'
+import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 
 
 const initialState = {
@@ -52,17 +54,16 @@ class App extends Component {
     const filteredAppointments = appointmentsList.filter(appointment => appointment.name === this.state.user.name);
     return (
       <div className="App">
-        {/* <Navigation name={this.state.user.name} isSignedIn={isSignedIn} onRouteChange={this.onRouteChange} /> */}
-        { (route === 'home')
+        { (route === 'signin')
           ? <div>
-            {/*   <Doctors medics={doctors} patient={this.state.user}/>
-            <Appointments agenda={filteredAppointments}/> */}
-            <AddAppointment.Provider value={this.onAppointmentAdded}>
-              <Home onRouteChange={this.onRouteChange} user={this.state.user} filteredAppointments={filteredAppointments}/>
-            </AddAppointment.Provider>
+            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+              <AddAppointment.Provider value={this.onAppointmentAdded}>
+                <Home onRouteChange={this.onRouteChange} user={this.state.user} filteredAppointments={filteredAppointments}/>
+              </AddAppointment.Provider>
+            </MuiPickersUtilsProvider>
           </div>
           : (
-            route === 'signin' || route === 'signout'
+            route === 'home' || route === 'signout'
               ? <Signin loadUser={this.loadUser} onRouteChange={this.onRouteChange} />
               : <Register loadUser={this.loadUser} onRouteChange={this.onRouteChange} />
           )

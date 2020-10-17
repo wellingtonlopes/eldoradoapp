@@ -34,23 +34,23 @@ export let doctors = [
 export const specialties = [
   {
     id: 1,
-    specialty: 'Pediatrics'
-  },
-  {
-    id: 2,
     specialty: 'Cardiology'
   },
   {
-    id: 3,
+    id: 2,
     specialty: 'Endocrinology'
   },
   {
+    id: 3,
+    specialty: 'Neurology'
+  },
+  {
     id: 4,
-    specialty: 'Surgery'
+    specialty: 'Pediatrics'
   },
   {
     id: 5,
-    specialty: 'Neurology'
+    specialty: 'Surgery'
   }
 ]
 

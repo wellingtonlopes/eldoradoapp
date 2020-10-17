@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import { Button } from '@material-ui/core';
 import { appointments } from '../../database/database';
+import { DateTimePicker } from '@material-ui/pickers';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -24,10 +25,12 @@ export default function DateAndTimePickers(props) {
   const { doctor, onAppointmentAdded, user } = props;
 
   const handleDatePicked = (date) => {
-    const formattedDate = date.target.value.slice(0, 10);
-    const formattedHour = date.target.value.slice(11);
-    setDate(formattedDate);
-    setHour(formattedHour);
+    /* const formattedDate = date.target.value.slice(0, 10);
+    const formattedHour = date.target.value.slice(11); */
+    setDate(date);
+    setHour(date);
+    console.log(date);
+    console.log(typeof date);
   }
 
   const handleSave = () => {
@@ -42,19 +45,20 @@ export default function DateAndTimePickers(props) {
 
     appointments.push(appointment);
     onAppointmentAdded(appointments);
+    props.onClose();
   }
 
   return (
     <form className={classes.container} noValidate>
-      <TextField
-        id="datetime-local"
-        label="Next appointment"
-        type="datetime-local"
-        className={classes.textField}
+      <DateTimePicker
         InputLabelProps={{
           shrink: true,
         }}
+        label="Next appointment"
+        className={classes.textField}
         onChange={handleDatePicked}
+        disablePast
+        minutesStep="30"
       />
       <Button style={{margin: 2}} variant="contained" color="inherit" onClick={handleSave}>
         Save

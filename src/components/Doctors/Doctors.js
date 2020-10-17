@@ -5,7 +5,6 @@ import Collapse from '@material-ui/core/Collapse';
 import IconButton from '@material-ui/core/IconButton';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
-import { TextField } from '@material-ui/core'
 import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
@@ -15,9 +14,9 @@ import Paper from '@material-ui/core/Paper';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import { doctors, specialties, appointments } from '../../database/database';
-import { Button } from '@material-ui/core'
 import SimpleModal from '../SimpleModal/SimpleModal';
 import Title from '../Title/Title';
+import DoctorModal from '../DoctorModal/DoctorModal'
 
 const useRowStyles = makeStyles({
   root: {
@@ -82,6 +81,7 @@ function Row(props) {
 
 export default function Doctors(props) {
   const { user } = props;
+
   return (
     <div style={{ width: '80%', marginLeft: '10%', marginRight: '10%' }}>
       <TableContainer component={Paper}>
@@ -89,7 +89,7 @@ export default function Doctors(props) {
           <TableHead>
             <TableRow>
               <TableCell />
-              <TableCell align="left"><Title>Medical Areas</Title></TableCell>
+              <TableCell align="left"><Title>Choose a Medical Area</Title></TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -99,6 +99,7 @@ export default function Doctors(props) {
           </TableBody>
         </Table>
       </TableContainer>
+      <DoctorModal/>
     </div>
   );
 }
