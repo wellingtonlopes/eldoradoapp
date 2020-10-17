@@ -28,6 +28,7 @@ const Appointments = ({ agenda }) => {
           <TableRow>
             <TableCell>Pacient</TableCell>
             <TableCell>Doctor</TableCell>
+            <TableCell>Area</TableCell>
             <TableCell>Date</TableCell>
             <TableCell>Time</TableCell>
           </TableRow>
@@ -37,6 +38,7 @@ const Appointments = ({ agenda }) => {
             <TableRow key={appointment.id}>
               <TableCell>{appointment.name}</TableCell>
               <TableCell>{appointment.doctor}</TableCell>
+              <TableCell>{appointment.field}</TableCell>
               <TableCell>{appointment.date}</TableCell>
               <TableCell>{appointment.hour}</TableCell>
             </TableRow>

@@ -17,6 +17,7 @@ import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import { doctors, specialties, appointments } from '../../database/database';
 import { Button } from '@material-ui/core'
 import SimpleModal from '../SimpleModal/SimpleModal';
+import Title from '../Title/Title';
 
 const useRowStyles = makeStyles({
   root: {
@@ -27,7 +28,7 @@ const useRowStyles = makeStyles({
 });
 
 function Row(props) {
-  const { row } = props;
+  const { row, user } = props;
   const [open, setOpen] = React.useState(false);
   const classes = useRowStyles();
   const filteredBySpec = (specialty) => doctors.filter(doctor => doctor.specialty === specialty);
@@ -54,7 +55,7 @@ function Row(props) {
               <Table size="small" aria-label="purchases">
                 <TableHead>
                   <TableRow>
-                    <TableCell>Doctor Name</TableCell>
+                    <TableCell>Name</TableCell>
                     <TableCell align="right">Make an Appointment</TableCell>
                   </TableRow>
                 </TableHead>
@@ -65,7 +66,7 @@ function Row(props) {
                         {doctorRow.name}
                       </TableCell>
                       <TableCell align="right">
-                        <SimpleModal />
+                        <SimpleModal user={user} doctor={doctorRow}/>
                       </TableCell>
                     </TableRow>
                   ))}
@@ -79,7 +80,8 @@ function Row(props) {
   );
 }
 
-export default function CollapsibleTable() {
+export default function Doctors(props) {
+  const { user } = props;
   return (
     <div style={{ width: '80%', marginLeft: '10%', marginRight: '10%' }}>
       <TableContainer component={Paper}>
@@ -87,12 +89,12 @@ export default function CollapsibleTable() {
           <TableHead>
             <TableRow>
               <TableCell />
-              <TableCell align="left">Medical Fields</TableCell>
+              <TableCell align="left"><Title>Medical Areas</Title></TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {specialties.map((spec) => (
-              <Row key={spec.id} row={spec} />
+              <Row key={spec.id} row={spec} user={user}/>
             ))}
           </TableBody>
         </Table>

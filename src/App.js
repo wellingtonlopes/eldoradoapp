@@ -4,7 +4,7 @@ import Signin from './components/SignIn/Signin';
 import Register from './components/Register/Register'
 import Home from './components/Home/Home'
 import { users, doctors, appointments } from './database/database';
-import { TransferWithinAStationSharp } from '@material-ui/icons';
+import AddAppointment from './context/AddAppointment';
 
 
 const initialState = {
@@ -14,7 +14,7 @@ const initialState = {
     name: '',
     email: ''
   },
-  appointmentsList: appointments
+  appointmentsList: appointments,
 }
 
 class App extends Component {
@@ -32,6 +32,7 @@ class App extends Component {
       }
     })
   }
+  
 
   onRouteChange = (route) => {
     if (route === 'signout') {
@@ -52,16 +53,16 @@ class App extends Component {
     return (
       <div className="App">
         {/* <Navigation name={this.state.user.name} isSignedIn={isSignedIn} onRouteChange={this.onRouteChange} /> */}
-        { (route === 'signin')
+        { (route === 'home')
           ? <div>
-            {/* <AddAppointment.Provider value={this.onAppointmentAdded}>
-              <Doctors medics={doctors} patient={this.state.user}/>
-            </AddAppointment.Provider>
+            {/*   <Doctors medics={doctors} patient={this.state.user}/>
             <Appointments agenda={filteredAppointments}/> */}
-            <Home onRouteChange={this.onRouteChange} user={this.state.user} filteredAppointments={filteredAppointments}/>
+            <AddAppointment.Provider value={this.onAppointmentAdded}>
+              <Home onRouteChange={this.onRouteChange} user={this.state.user} filteredAppointments={filteredAppointments}/>
+            </AddAppointment.Provider>
           </div>
           : (
-            route === 'home' || route === 'signout'
+            route === 'signin' || route === 'signout'
               ? <Signin loadUser={this.loadUser} onRouteChange={this.onRouteChange} />
               : <Register loadUser={this.loadUser} onRouteChange={this.onRouteChange} />
           )

@@ -52,7 +52,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function RespDrawer(props) {
-  const { window, onRouteChange, filteredAppointments } = props;
+  const { window, onRouteChange, filteredAppointments, user } = props;
   const classes = useStyles();
   const theme = useTheme();
   const [mobileOpen, setMobileOpen] = React.useState(false);
@@ -143,7 +143,7 @@ function RespDrawer(props) {
       </nav>
       <main className={classes.content}>
         <div className={classes.toolbar} />
-          <Doctors />
+          <Doctors user={user}/>
           <Appointments agenda={filteredAppointments} />
       </main>
     </div>

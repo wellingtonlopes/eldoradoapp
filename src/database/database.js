@@ -73,29 +73,33 @@ export let appointments = [
 {
   id: 1,
   name: 'Winston Churchill',
-  doctor: 'Angela Ziegler',
-  date: '20/12/2020',
+  doctor: 'Dr. Angela Ziegler',
+  field: 'Cardiology',
+  date: '2020-12-20',
   hour: '09:00'
 },
 {
   id: 2,
   name: 'Winston Churchill',
-  doctor: 'Ana Amari',
-  date: '13/11/2020',
+  doctor: 'Dr. Ana Amari',
+  field: 'Endocrinology',
+  date: '2020-11-13',
   hour: '15:00'
 },
 {
   id: 3,
   name: 'Reinhardt Wilhelm',
-  doctor: 'Ana Amari',
-  date: '13/11/2020',
+  doctor: 'Dr. Ana Amari',
+  field: 'Endocrinology',
+  date: '2020-11-13',
   hour: '10:30'
 },
 {
   id: 4,
   name: 'Winston Churchill',
-  doctor: 'Lúcio Correia dos Santos',
-  date: '29/10/2020',
+  doctor: 'Dr. Lúcio Correia dos Santos',
+  field: 'Pediatrics',
+  date: '2020-10-29',
   hour: '07:15'
 }
 ]
