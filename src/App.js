@@ -3,7 +3,7 @@ import './App.css';
 import Signin from './components/SignIn/Signin';
 import Register from './components/Register/Register'
 import Home from './components/Home/Home'
-import { users, doctors, appointments } from './database/database';
+import { appointments } from './database/database';
 import AddAppointment from './context/AddAppointment';
 import DateFnsUtils from '@date-io/date-fns'
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
@@ -35,7 +35,7 @@ class App extends Component {
     })
   }
   
-
+  // method to handle route changes without using the Router dependency
   onRouteChange = (route) => {
     if (route === 'signout') {
       this.setState(initialState);
@@ -54,7 +54,8 @@ class App extends Component {
     const filteredAppointments = appointmentsList.filter(appointment => appointment.name === this.state.user.name);
     return (
       <div className="App">
-        { (route === 'signin')
+        {/* Checks the 'route' state to render the correct page based on authentication */}
+        { (route === 'home')
           ? <div>
             <MuiPickersUtilsProvider utils={DateFnsUtils}>
               <AddAppointment.Provider value={this.onAppointmentAdded}>
@@ -63,7 +64,7 @@ class App extends Component {
             </MuiPickersUtilsProvider>
           </div>
           : (
-            route === 'home' || route === 'signout'
+            route === 'signin' || route === 'signout'
               ? <Signin loadUser={this.loadUser} onRouteChange={this.onRouteChange} />
               : <Register loadUser={this.loadUser} onRouteChange={this.onRouteChange} />
           )

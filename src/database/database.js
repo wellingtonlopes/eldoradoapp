@@ -75,7 +75,7 @@ export let appointments = [
   name: 'Winston Churchill',
   doctor: 'Dr. Angela Ziegler',
   field: 'Cardiology',
-  date: '2020-12-20',
+  date: '20/12/2020',
   hour: '09:00'
 },
 {
@@ -83,7 +83,7 @@ export let appointments = [
   name: 'Winston Churchill',
   doctor: 'Dr. Ana Amari',
   field: 'Endocrinology',
-  date: '2020-11-13',
+  date: '13/11/2020',
   hour: '15:00'
 },
 {
@@ -91,7 +91,7 @@ export let appointments = [
   name: 'Reinhardt Wilhelm',
   doctor: 'Dr. Ana Amari',
   field: 'Endocrinology',
-  date: '2020-11-13',
+  date: '13/11/2020',
   hour: '10:30'
 },
 {
@@ -99,7 +99,7 @@ export let appointments = [
   name: 'Winston Churchill',
   doctor: 'Dr. Lúcio Correia dos Santos',
   field: 'Pediatrics',
-  date: '2020-10-29',
+  date: '29/10/2020',
   hour: '07:15'
 }
 ]

@@ -20,6 +20,7 @@ class Signin extends Component {
     this.setState({ signInPassword: event.target.value });
   }
 
+  // checks if the user's credentials matches with any in the database, if so load the user on App.js and set the route change to 'home'
   onSubmitSignIn = async () => {
     const userArray = users.filter(user => this.state.signInEmail === user.email && this.state.signInPassword === user.password);
     let user;

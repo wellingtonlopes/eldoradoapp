@@ -1,6 +1,5 @@
 import React, { Fragment } from 'react';
 import RespDrawer from '../Drawer/Drawer';
-import { makeStyles } from '@material-ui/core/styles';
 
 const Home = ({ onRouteChange, user, filteredAppointments }) => {
 

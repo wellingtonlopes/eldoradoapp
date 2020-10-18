@@ -13,7 +13,7 @@ import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
-import { doctors, specialties, appointments } from '../../database/database';
+import { doctors, specialties} from '../../database/database';
 import SimpleModal from '../SimpleModal/SimpleModal';
 import Title from '../Title/Title';
 import DoctorModal from '../DoctorModal/DoctorModal'
@@ -30,6 +30,8 @@ function Row(props) {
   const { row, user } = props;
   const [open, setOpen] = React.useState(false);
   const classes = useRowStyles();
+
+  // filters the doctors to group them by their specialty
   const filteredBySpec = (specialty) => doctors.filter(doctor => doctor.specialty === specialty);
 
   return (

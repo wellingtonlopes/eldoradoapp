@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import TextField from '@material-ui/core/TextField';
 import { Button } from '@material-ui/core';
 import { appointments } from '../../database/database';
 import { DateTimePicker } from '@material-ui/pickers';
@@ -22,17 +21,21 @@ export default function DateAndTimePickers(props) {
   const classes = useStyles();
   const [date, setDate] = useState('');
   const [hour, setHour] = useState('');
+  const [pickerDate, setPickerDate] = useState(new Date());
   const { doctor, onAppointmentAdded, user } = props;
 
+  // set the date and time to the state, and also pickerDate to show the selected value on the dialog box
   const handleDatePicked = (date) => {
-    /* const formattedDate = date.target.value.slice(0, 10);
-    const formattedHour = date.target.value.slice(11); */
-    setDate(date);
-    setHour(date);
-    console.log(date);
-    console.log(typeof date);
+    const [month, day, year] = date.toLocaleDateString().split("/");
+    const [hour, minute] = date.toLocaleTimeString().split(/:| /);
+    const formattedDate = `${day}/${month}/${year}`;
+    const formattedHour = `${hour}:${minute}`;
+    setDate(formattedDate);
+    setHour(formattedHour);
+    setPickerDate(date);
   }
 
+  // adds the new appointment to the database and calls the onAppointmentAdded method to update de list of appointments on App.js
   const handleSave = () => {
     const appointment = {
       id: appointments[appointments.length - 1].id + 1,
@@ -58,7 +61,8 @@ export default function DateAndTimePickers(props) {
         className={classes.textField}
         onChange={handleDatePicked}
         disablePast
-        minutesStep="30"
+        minutesStep={30}
+        value={pickerDate}
       />
       <Button style={{margin: 2}} variant="contained" color="inherit" onClick={handleSave}>
         Save
