@@ -48,7 +48,7 @@ export default function SimpleModal(props) {
     <div style={modalStyle} className={classes.paper}>
       <h2 style={{ margin: 10 }} id="simple-modal-title">Choose date and time</h2>
       <p style={{ marginTop: 0 }} id="simple-modal-description">
-        Please, pick a round time and weekdays only.
+        Please, pick the best date and time for your appointment.
       </p>
       <AddAppointment.Consumer>
         {(onAppointmentAdded) => <DateTime onClose={handleClose} doctor={doctor} onAppointmentAdded={onAppointmentAdded} user={user}/>}

@@ -4,7 +4,7 @@ import { Button, IconButton, InputAdornment, TextField, MenuItem, Grid } from '@
 import { appointments, availableHours } from '../../database/database';
 import { DatePicker } from '@material-ui/pickers';
 import { CalendarToday, Alarm } from '@material-ui/icons';
-import { getFormattedHour, getFormattedDate } from '../Appointments/Appointments';
+import { getFormattedDate } from '../Appointments/Appointments';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -19,12 +19,26 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const nextBusinessDay = () => {
+  const today = new Date();
+  let tomorrow = new Date(today)
+  let businessDay = false;
+  while (!businessDay) {
+    tomorrow.setDate(tomorrow.getDate() + 1)
+    if (!(tomorrow.getDay() === 0) || !(tomorrow.getDay() === 6)) {
+      businessDay = true;
+    }
+  }
+  return tomorrow;
+};
+
 export default function DateAndTimePickers(props) {
   const classes = useStyles();
   const { doctor, onAppointmentAdded, user } = props;
-  const [date, setDate] = useState(new Date());
+  const [date, setDate] = useState(nextBusinessDay());
   const [vacantHours, setVacantHours] = useState([]);
   const [time, setTime] = React.useState("");
+  const [isDisabled, setDisabled] = useState(true);
 
   const handleDatePicked = (date) => {
     setDate(date);
@@ -35,14 +49,13 @@ export default function DateAndTimePickers(props) {
   //filters the not already scheduled times of the selected day, to display on the Time component
   const availableTime = (medic, date) => {
     let todayAppoint = appointments.filter(appointment => getFormattedDate(appointment.date) === getFormattedDate(date) && appointment.doctor === medic.name);
-    let todayBusyHours = todayAppoint.map(appoint => getFormattedHour(appoint.date));
+    let todayBusyHours = todayAppoint.map(appoint => appoint.time);
     return availableHours.filter(hour => !todayBusyHours.includes(hour.time));
   };
 
   // double checks if appointment is not duplicate, and adds 
   // the new appointment to the database - calling the onAppointmentAdded method to update the list of appointments on App.js
   const handleSave = () => {
-    console.log("handle save")
 
     const appointment = {
       id: appointments.length > 0 ? appointments[appointments.length - 1].id + 1 : 1,
@@ -58,6 +71,7 @@ export default function DateAndTimePickers(props) {
     if (uniqueAppoint.length === 0) {
       appointments.push(appointment);
       onAppointmentAdded(appointments);
+      setDisabled(true);
       props.onClose();
     }
 
@@ -65,14 +79,14 @@ export default function DateAndTimePickers(props) {
 
   const handleChange = (event) => {
     setTime(event.target.value);
-    console.log(event.target.value)
+    setDisabled(false);
   };
 
   // disable weekends and today's date
   const disabledDates = (date) => {
     const today = new Date();
     return date.getDay() === 0 || date.getDay() === 6 || date === today;
-  }
+  };
 
   return (
     <form className={classes.container} noValidate style={{ display: "flex", flexWrap: "wrap" }}>
@@ -105,22 +119,22 @@ export default function DateAndTimePickers(props) {
         </Grid>
         <Grid item xs={12}>
           <TextField
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <IconButton>
-                  <Alarm />
-                </IconButton>
-              </InputAdornment>
-            ),
-          }}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <IconButton>
+                    <Alarm />
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
             id="select-time"
             select
             className={classes.textField}
             label="Appointment time"
             value={time}
             onChange={handleChange}
-            helperText="Please select a valid date first"
+            helperText="Please select your preferred time"
           >
             {vacantHours.map((option) => (
               <MenuItem key={option.id} value={option.time}>
@@ -130,14 +144,14 @@ export default function DateAndTimePickers(props) {
           </TextField>
         </Grid>
         <Grid item>
-          <Button variant="contained" color="secondary" onClick={props.onClose}>
-            Close
-      </Button>
+          <Button variant="contained" color="primary" onClick={handleSave} disabled={isDisabled}>
+            Save
+          </Button>
         </Grid>
         <Grid item>
-          <Button variant="contained" color="inherit" onClick={handleSave}>
-            Save
-      </Button>
+          <Button variant="contained" color="secondary" onClick={props.onClose}>
+            Close
+          </Button>
         </Grid>
       </Grid>
     </form>
