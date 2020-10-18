@@ -30,25 +30,25 @@ You can sign in into the system using the credentials:
 - Password:
   - 1234
 
-Or, you can sign up for the system selecting the "Sign Up" option on the bottom of the page.
+- Or, you can sign up for the system selecting the "Sign Up" option on the bottom of the page.
 Once you finish registering you'll be automatically logged in.
 
 ### See Doctors / Make Appointments
 
 You can see the service's doctors that are available by selecting the "Doctors" section on the side-bar menu.
 
-On the Doctors page, you will see the available doctors grouped by their medical field. 
---Once you find the medic you want you can schedule an appointment with them by clicking on "Schedule" and selecting a date and time.
+- On the Doctors page, you will see the available doctors grouped by their medical field. 
+  - Once you find the medic you want you can schedule an appointment with them by clicking on "Schedule" and selecting a date and time.
 
-Finally, you can add doctors by clicking on the button on the bottom of the page.
-  -Add the name of the doctor and select one of our available specialties before saving their info on the system.
+- Finally, you can add doctors by clicking on the button on the bottom of the page.
+  - Add the name of the doctor and select one of our available specialties before saving their info on the system.
 
 ### See Appointments
 
-By selecting the "Appointments" section on the side-bar menu, you will see a table with all the upcoming appointments for the user logged in.
-  -Go to the Doctors page, schedule a new appointment and come back to see it live on the table.
+- By selecting the "Appointments" section on the side-bar menu, you will see a table with all the upcoming appointments for the user logged in.
+  - Go to the Doctors page, schedule a new appointment and come back to see it live on the table.
 
 ### Sign Out
 
-Once you're satisfied you can select the "Sign Out" section of the side-bar menu to sign out of the page and go back to the Sign In page.
+- Once you're satisfied you can select the "Sign Out" section of the side-bar menu to sign out of the page and go back to the Sign In page.
 
