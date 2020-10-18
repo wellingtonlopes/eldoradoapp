@@ -72,7 +72,7 @@ export default function DoctorModal() {
         Add Doctor
       </Button>
       <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-        <DialogTitle id="form-dialog-title">Subscribe</DialogTitle>
+        <DialogTitle id="form-dialog-title">Add Doctor</DialogTitle>
         <DialogContent>
           <DialogContentText>
             To create a new doctor, tell us their name and their health field
