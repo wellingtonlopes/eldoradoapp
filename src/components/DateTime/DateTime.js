@@ -33,31 +33,31 @@ const nextBusinessDay = () => {
   return tomorrow;
 };
 
+  //filters the not already scheduled times of the selected day, to display on the Time component
+  const availableTime = (patient, medic, date) => {
+    let todayAppoint = appointments.filter(appointment => getFormattedDate(appointment.date) === getFormattedDate(date) &&
+                                                            (appointment.doctor === medic.name || appointment.name === patient.name));
+    let todayBusyHours = todayAppoint.map(appoint => appoint.time);
+    return availableHours.filter(hour => !todayBusyHours.includes(hour.time));
+  };
+
 export default function DateAndTimePickers(props) {
   const classes = useStyles();
   const { doctor, onAppointmentAdded, user } = props;
   const [date, setDate] = useState(nextBusinessDay());
-  const [vacantHours, setVacantHours] = useState([]);
-  const [time, setTime] = React.useState("");
+  const [vacantHours, setVacantHours] = useState(availableTime(user, doctor, nextBusinessDay()));
+  const [time, setTime] = useState("");
   const [isDisabled, setDisabled] = useState(true);
 
   const handleDatePicked = (date) => {
     setDate(date);
-    let hours = availableTime(doctor, date);
+    let hours = availableTime(user, doctor, date);
     setVacantHours(hours);
-  };
-
-  //filters the not already scheduled times of the selected day, to display on the Time component
-  const availableTime = (medic, date) => {
-    let todayAppoint = appointments.filter(appointment => getFormattedDate(appointment.date) === getFormattedDate(date) && appointment.doctor === medic.name);
-    let todayBusyHours = todayAppoint.map(appoint => appoint.time);
-    return availableHours.filter(hour => !todayBusyHours.includes(hour.time));
   };
 
   // double checks if appointment is not duplicate, and adds 
   // the new appointment to the database - calling the onAppointmentAdded method to update the list of appointments on App.js
   const handleSave = () => {
-
     const appointment = {
       id: appointments.length > 0 ? appointments[appointments.length - 1].id + 1 : 1,
       name: user.name,
@@ -75,7 +75,6 @@ export default function DateAndTimePickers(props) {
       setDisabled(true);
       props.onClose();
     }
-
   }
 
   const handleChange = (event) => {
