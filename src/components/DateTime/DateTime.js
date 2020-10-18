@@ -19,6 +19,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+//calculates the next day that will not be on a weekend
 const nextBusinessDay = () => {
   const today = new Date();
   let tomorrow = new Date(today)

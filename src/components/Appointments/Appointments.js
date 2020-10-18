@@ -1,5 +1,4 @@
 import React, { Fragment } from 'react';
-import Link from '@material-ui/core/Link';
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -8,9 +7,9 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Title from '../Title/Title';
 
-function preventDefault(event) {
+/* function preventDefault(event) {
   event.preventDefault();
-}
+} */
 
 export function getFormattedDate(date) {
   return `${(date.getDate()<10?'0':'') + date.getDate()}/${(date.getMonth()<9?'0':'') + (date.getMonth() + 1)}/${date.getFullYear()}`;
@@ -59,11 +58,11 @@ const Appointments = ({ agenda }) => {
           ))}
         </TableBody>
       </Table>
-      <div className={classes.seeMore}>
+      {/* <div className={classes.seeMore}>
         <Link color="primary" href="#" onClick={preventDefault}>
           See past appointments
         </Link>
-      </div>
+      </div> */}
     </Fragment>
   );
 }
