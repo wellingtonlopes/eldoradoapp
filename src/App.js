@@ -5,7 +5,7 @@ import Register from './components/Register/Register'
 import Home from './components/Home/Home'
 import { appointments } from './database/database';
 import AddAppointment from './context/AddAppointment';
-import DateFnsUtils from '@date-io/date-fns'
+import DateFnsUtils from '@date-io/date-fns';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 
 

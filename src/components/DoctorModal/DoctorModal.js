@@ -35,14 +35,14 @@ export default function DoctorModal() {
     })
   }
 
-  // checks if the submitted doctor is already inserted on the database before adding it
+  // checks if the submitted doctor is already inserted on the database before adding it or not
   const onSaveSubmit = () => {
     state.name = 'Dr. ' + state.name;
     const alreadyExist = doctors.filter(doctor => doctor.name === state.name);
 
     if (alreadyExist.length === 0) {
       const newDoctor = {
-        id: doctors[doctors.length-1].id + 1,
+        id: doctors.length > 0 ? doctors[doctors.length - 1].id + 1 : 1,
         name: state.name,
         specialty: state.field
       };

@@ -75,31 +75,70 @@ export let appointments = [
   name: 'Winston Churchill',
   doctor: 'Dr. Angela Ziegler',
   field: 'Cardiology',
-  date: '20/12/2020',
-  hour: '09:00'
+  date: new Date('2020-12-17T08:00:00'),
+  time: "08:00"
 },
 {
   id: 2,
   name: 'Winston Churchill',
   doctor: 'Dr. Ana Amari',
   field: 'Endocrinology',
-  date: '13/11/2020',
-  hour: '15:00'
+  date: new Date('2020-11-21T10:00:00'),
+  time: "10:00"
 },
 {
   id: 3,
   name: 'Reinhardt Wilhelm',
   doctor: 'Dr. Ana Amari',
   field: 'Endocrinology',
-  date: '13/11/2020',
-  hour: '10:30'
+  date: new Date('2021-10-13T14:00:00'),
+  time: "14:00"
 },
 {
   id: 4,
   name: 'Winston Churchill',
   doctor: 'Dr. Lúcio Correia dos Santos',
   field: 'Pediatrics',
-  date: '29/10/2020',
-  hour: '07:15'
+  date: new Date('2021-1-30T015:00:00'),
+  time: "15:00"
 }
+]
+
+export let availableHours = [
+  {
+    id: 1,
+    time: '08:00'
+  },
+  {
+    id: 2,
+    time: '09:00'
+  },
+  {
+    id: 3,
+    time: '10:00'
+  },
+  {
+    id: 4,
+    time: '11:00'
+  },
+  {
+    id: 5,
+    time: '13:00'
+  },
+  {
+    id: 6,
+    time: '14:00'
+  },
+  {
+    id: 7,
+    time: '15:00'
+  },
+  {
+    id: 8,
+    time: '16:00'
+  },
+  {
+    id: 9,
+    time: '17:00'
+  },
 ]

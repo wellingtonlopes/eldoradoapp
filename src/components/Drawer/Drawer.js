@@ -67,7 +67,7 @@ function RespDrawer(props) {
       <div className={classes.toolbar} />
       <Divider />
       <List>
-        <Link to={'/dashboard/doctors'}>
+        <Link to={'/dashboard/doctors'} style={{ color: 'inherit', textDecoration: 'none' }}>
           <ListItem button>
             <ListItemIcon>
               <People />
@@ -75,7 +75,7 @@ function RespDrawer(props) {
             <ListItemText primary="Doctors" />
           </ListItem>
         </Link>
-        <Link to={'/dashboard/appointments'}>
+        <Link to={'/dashboard/appointments'} style={{ color: 'inherit', textDecoration: 'none' }}>
           <ListItem button>
             <ListItemIcon>
               <Event />
@@ -83,14 +83,16 @@ function RespDrawer(props) {
             <ListItemText primary="Appointments" />
           </ListItem>
         </Link>
-        <ListItem
-          button
-          onClick={() => onRouteChange('signout')}>
-          <ListItemIcon>
-            <MeetingRoom />
-          </ListItemIcon>
-          <ListItemText primary="Sign Out" />
-        </ListItem>
+        <Link to={'/'} style={{ color: 'inherit', textDecoration: 'none' }}>
+          <ListItem
+            button
+            onClick={() => onRouteChange('signout')}>
+            <ListItemIcon>
+              <MeetingRoom />
+            </ListItemIcon>
+            <ListItemText primary="Sign Out" />
+          </ListItem>
+        </Link>
       </List>
     </div>
   );
@@ -149,14 +151,25 @@ function RespDrawer(props) {
         </nav>
         <main className={classes.content}>
           <div className={classes.toolbar} />
-          <Route 
-            path="/dashboard/doctors" 
-            render={(props) => (
-              <Doctors {...props} user={user}/>
+          <Route
+            exact={true}
+            path="/"
+            render={() => (
+              <div>
+                <h1>Welcome, {`${user.name}`}</h1>
+                <p>Use the side menu to see our available doctors, make appointments or check your upcoming appointments!</p>
+              </div>
             )}
           />
-          <Route 
-            path="/dashboard/appointments" 
+          <Route
+            exact={true}
+            path="/dashboard/doctors"
+            render={(props) => (
+              <Doctors {...props} user={user} />
+            )}
+          />
+          <Route
+            path="/dashboard/appointments"
             render={(props) => (
               <Appointments {...props} agenda={filteredAppointments} />
             )}

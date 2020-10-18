@@ -12,11 +12,25 @@ function preventDefault(event) {
   event.preventDefault();
 }
 
+export function getFormattedDate(date) {
+  return `${(date.getDate()<10?'0':'') + date.getDate()}/${(date.getMonth()<9?'0':'') + (date.getMonth() + 1)}/${date.getFullYear()}`;
+}
+
+export function getFormattedHour(date) {
+  return `${(date.getHours()<10?'0':'') + date.getHours()}:${(date.getMinutes()<10?'0':'') + date.getMinutes()}`;
+}
+
 const useStyles = makeStyles((theme) => ({
   seeMore: {
     marginTop: theme.spacing(3),
   },
+  hideCol: {
+    [theme.breakpoints.down('sm')]: {
+      display: 'none'
+    },
+  }
 }));
+
 
 const Appointments = ({ agenda }) => {
   const classes = useStyles();
@@ -26,7 +40,7 @@ const Appointments = ({ agenda }) => {
       <Table size="small">
         <TableHead>
           <TableRow>
-            <TableCell>Pacient</TableCell>
+            <TableCell className={classes.hideCol}>Pacient</TableCell>
             <TableCell>Doctor</TableCell>
             <TableCell>Area</TableCell>
             <TableCell>Date</TableCell>
@@ -35,12 +49,12 @@ const Appointments = ({ agenda }) => {
         </TableHead>
         <TableBody>
           {agenda.map((appointment) => (
-            <TableRow key={appointment.id}>
-              <TableCell>{appointment.name}</TableCell>
-              <TableCell>{appointment.doctor}</TableCell>
-              <TableCell>{appointment.field}</TableCell>
-              <TableCell>{appointment.date}</TableCell>
-              <TableCell>{appointment.hour}</TableCell>
+            <TableRow key={ appointment.id }>
+              <TableCell className={classes.hideCol}> { appointment.name } </TableCell>
+              <TableCell> { appointment.doctor } </TableCell>
+              <TableCell> { appointment.field } </TableCell>
+              <TableCell> { getFormattedDate(appointment.date) } </TableCell>
+              <TableCell> { appointment.time } </TableCell>
             </TableRow>
           ))}
         </TableBody>

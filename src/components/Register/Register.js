@@ -1,108 +1,153 @@
-import React, { Component, Fragment } from 'react';
-import { users } from '../../database/database'
-import { TextField } from '@material-ui/core';
-import { Button } from '@material-ui/core'
+import React, { useState } from 'react';
+import Avatar from '@material-ui/core/Avatar';
+import Button from '@material-ui/core/Button';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import TextField from '@material-ui/core/TextField';
+import Link from '@material-ui/core/Link';
+import Grid from '@material-ui/core/Grid';
+import Box from '@material-ui/core/Box';
+import { AssignmentInd } from '@material-ui/icons';
+import Typography from '@material-ui/core/Typography';
+import { makeStyles } from '@material-ui/core/styles';
+import Container from '@material-ui/core/Container';
+import { users } from '../../database/database';
 
-class Register extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      email: '',
-      password: '',
-      name: ''
+const useStyles = makeStyles((theme) => ({
+  paper: {
+    marginTop: theme.spacing(8),
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+  avatar: {
+    margin: theme.spacing(1),
+    backgroundColor: theme.palette.secondary.main,
+    height: 80,
+    width: 80
+  },
+  form: {
+    width: '100%', // Fix IE 11 issue.
+    marginTop: theme.spacing(1),
+  },
+  submit: {
+    margin: theme.spacing(3, 0, 2),
+  },
+}));
+
+const Register = (props) => {
+  const classes = useStyles();
+  const [registerName, setRegisterName] = useState('');
+  const [registerEmail, setRegisterEmail] = useState('');
+  const [registerPassword, setRegisterPassword] = useState('');
+
+  const onNameChange = (event) => {
+    setRegisterName(event.target.value);
+  }
+
+  const onEmailChange = (event) => {
+    setRegisterEmail(event.target.value);
+  }
+
+  const onPasswordChange = (event) => {
+    setRegisterPassword(event.target.value);
+  }
+  const onSubmitRegister = () => {
+    const user = {
+      id: users.length > 0 ? users[users.length - 1].id + 1 : 1,
+      name: registerName,
+      email: registerEmail,
+      password: registerPassword
     }
-  }
-
-  onEmailChange = (event) => {
-    this.setState({ email: event.target.value });
-  }
-
-  onPasswordChange = (event) => {
-    this.setState({ password: event.target.value });
-  }
-
-  onNameChange = (event) => {
-    this.setState({ name: event.target.value });
-  }
-
-  onSubmitRegister = async () => { 
-    if (this.state.name !== '' && this.state.email !== '' && this.state.password !== '') {
-      const user = {
-        id: users[users.length-1].id + 1,
-        name: this.state.name,
-        email: this.state.email,
-        password: this.state.password
-      }
-      let alreadyExists = users.filter(user => user.email === this.state.email);
-      if (alreadyExists.length === 0) {
-        users.push(user);
-        if (user.id) {
-          this.props.loadUser(user);
-          this.props.onRouteChange('home');
-        }
-      } else {
-        alert('User already exist, try a different email')
+    let alreadyExists = users.filter(user => user.email === registerEmail);
+    if (alreadyExists.length === 0) {
+      users.push(user);
+      if (user.id) {
+        props.loadUser(user);
+        props.onRouteChange('home');
       }
     } else {
-      alert('Please, fill the remaining fields')
+      alert('User already exist, try a different email')
+      props.onRouteChange('register');
     }
   }
 
-  handleKeyDown = (event) => {
+  const handleKeyDown = (event) => {
     if (event.key === 'Enter') {
-      this.onSubmitRegister();
+      onSubmitRegister();
     }
   }
 
-  render() {
-    const { onRouteChange } = this.props;
-    return (
-      <Fragment>
-        <div>
-          <TextField 
-            variant="outlined"
-            label="Name"
-            margin="dense"
-            onChange={this.onNameChange}
-            required
-          />
-        </div>
-        <div>
-          <TextField 
-            variant="outlined"
-            label="E-mail"
-            margin="dense"
-            onChange={this.onEmailChange}
-            required
-          />
-        </div>
-        <div>
-          <TextField 
-            variant="outlined"
-            label="Password"
-            margin="dense"
-            onChange={this.onPasswordChange}
-            onKeyDown={this.handleKeyDown}
-            required
-          />
-        </div>
-        <Button 
-          style={{margin: 3}}
-          variant="contained"
-          color="primary"
-          onClick={() => onRouteChange('signin')}> 
-          Log in 
-        </Button>
-        <Button 
-          style={{margin: 3}}
-          variant="contained"
-          color="primary"
-          onClick={this.onSubmitRegister}> 
+  return (
+    <Container component="main" maxWidth="xs">
+      <CssBaseline />
+      <div className={classes.paper}>
+        <Avatar className={classes.avatar}>
+          <AssignmentInd style={{ fontSize: 60 }} />
+        </Avatar>
+        <Typography component="h1" variant="h5">
           Register
-        </Button>
-      </Fragment>
-    );
-  }
+        </Typography>
+        <form className={classes.form} noValidate>
+          <TextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            id="name"
+            label="Name"
+            name="name"
+            autoComplete="name"
+            autoFocus
+            onChange={onNameChange}
+          />
+          <TextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            id="email"
+            label="Email Address"
+            name="email"
+            autoComplete="email"
+            onChange={onEmailChange}
+          />
+          <TextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            name="password"
+            label="Password"
+            type="password"
+            id="password"
+            autoComplete="current-password"
+            onChange={onPasswordChange}
+            onKeyDown={handleKeyDown}
+          />
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            color="primary"
+            className={classes.submit}
+            onClick={onSubmitRegister}
+          >
+            Register
+          </Button>
+          <Grid container>
+
+            <Grid item>
+              <Link href="#" variant="body2" onClick={() => props.onRouteChange('signin')}>
+                {"Already have an account? Sign In"}
+              </Link>
+            </Grid>
+          </Grid>
+        </form>
+      </div>
+      <Box mt={8}>
+      </Box>
+    </Container>
+  );
 }
 
 export default Register;

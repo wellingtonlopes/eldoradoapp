@@ -1,28 +1,54 @@
-import React, { Component, Fragment } from 'react';
-import { users } from '../../database/database'
-import { TextField } from '@material-ui/core';
-import { Button } from '@material-ui/core'
+import React, { useState } from 'react';
+import Avatar from '@material-ui/core/Avatar';
+import Button from '@material-ui/core/Button';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import TextField from '@material-ui/core/TextField';
+import Link from '@material-ui/core/Link';
+import Grid from '@material-ui/core/Grid';
+import Box from '@material-ui/core/Box';
+import { AssignmentInd } from '@material-ui/icons';
+import Typography from '@material-ui/core/Typography';
+import { makeStyles } from '@material-ui/core/styles';
+import Container from '@material-ui/core/Container';
+import { users } from '../../database/database';
 
-class Signin extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      signInEmail: '',
-      signInPassword: ''
-    }
+const useStyles = makeStyles((theme) => ({
+  paper: {
+    marginTop: theme.spacing(8),
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+  avatar: {
+    margin: theme.spacing(1),
+    backgroundColor: theme.palette.secondary.main,
+    height: 80,
+    width: 80
+  },
+  form: {
+    width: '100%', // Fix IE 11 issue.
+    marginTop: theme.spacing(1),
+  },
+  submit: {
+    margin: theme.spacing(3, 0, 2),
+  },
+}));
+
+const Signin = (props) => {
+  const classes = useStyles();
+  const [signInEmail, setSignInEmail] = useState('');
+  const [signInPassword, setSignInPassword] = useState('');
+
+  const onPasswordChange = (event) => {
+    setSignInPassword(event.target.value);
   }
 
-  onEmailChange = (event) => {
-    this.setState({ signInEmail: event.target.value });
+  const onEmailChange = (event) => {
+    setSignInEmail(event.target.value);
   }
 
-  onPasswordChange = (event) => {
-    this.setState({ signInPassword: event.target.value });
-  }
-
-  // checks if the user's credentials matches with any in the database, if so load the user on App.js and set the route change to 'home'
-  onSubmitSignIn = async () => {
-    const userArray = users.filter(user => this.state.signInEmail === user.email && this.state.signInPassword === user.password);
+  const onSubmitSignIn = () => {
+    const userArray = users.filter(user => signInEmail === user.email && signInPassword === user.password);
     let user;
     if (userArray[0] !== undefined) {
       user = userArray[0];
@@ -30,62 +56,78 @@ class Signin extends Component {
       user = {};
     }
     if (user.id) {
-      this.props.loadUser(user);
-      this.props.onRouteChange('home');
+      props.loadUser(user);
+      props.onRouteChange('home');
     } else {
       alert('Could not find a user with those credentials')
     }
   }
 
-  handleKeyDown = (event) => {
+  const handleKeyDown = (event) => {
     if (event.key === 'Enter') {
-      this.onSubmitSignIn();
+      onSubmitSignIn();
     }
   }
 
-  render() {
-    const { onRouteChange } = this.props;
-    return (
-      <Fragment>
-        <div>
-          <TextField 
+  return (
+    <Container component="main" maxWidth="xs">
+      <CssBaseline />
+      <div className={classes.paper}>
+        <Avatar className={classes.avatar}>
+          <AssignmentInd style={{ fontSize: 60 }} />
+        </Avatar>
+        <Typography component="h1" variant="h5">
+          Sign in
+        </Typography>
+        <form className={classes.form} noValidate>
+          <TextField
             variant="outlined"
-            label="E-mail"
-            margin="dense"
-            type="email"
-            onChange={this.onEmailChange}
+            margin="normal"
             required
+            fullWidth
+            id="email"
+            label="Email Address"
+            name="email"
+            autoComplete="email"
+            autoFocus
+            onChange={onEmailChange}
           />
-        </div>
-        <div>
-          <TextField 
+          <TextField
             variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            name="password"
             label="Password"
-            margin="dense"
             type="password"
-            onChange={this.onPasswordChange}
-            onKeyDown={this.handleKeyDown}
-            required
+            id="password"
+            autoComplete="current-password"
+            onChange={onPasswordChange}
+            onKeyDown={handleKeyDown}
           />
-        </div>
-        <Button 
-          style={{margin: 3}}
-          variant="contained"
-          color="primary"
-          type="submit"
-          onClick={() => onRouteChange('register')}> 
-          Register 
-        </Button>
-        <Button 
-          style={{margin: 3}}
-          variant="contained"
-          color="primary"
-          onClick={this.onSubmitSignIn}> 
-          Sign in 
-        </Button>
-      </Fragment>
-    );
-  }
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            color="primary"
+            className={classes.submit}
+            onClick={onSubmitSignIn}
+          >
+            Sign In
+          </Button>
+          <Grid container>
+            <Grid item>
+              <Link href="#" variant="body2" onClick={() => props.onRouteChange('register')}>
+                {"Don't have an account? Sign Up"}
+              </Link>
+            </Grid>
+          </Grid>
+        </form>
+      </div>
+      <Box mt={8}>
+      </Box>
+    </Container>
+  );
 }
 
 export default Signin;

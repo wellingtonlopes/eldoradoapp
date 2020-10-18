@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Button } from '@material-ui/core';
-import { appointments } from '../../database/database';
-import { DateTimePicker } from '@material-ui/pickers';
+import { Button, IconButton, InputAdornment, TextField, MenuItem, Grid } from '@material-ui/core';
+import { appointments, availableHours } from '../../database/database';
+import { DatePicker } from '@material-ui/pickers';
+import { CalendarToday, Alarm } from '@material-ui/icons';
+import { getFormattedHour, getFormattedDate } from '../Appointments/Appointments';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -19,57 +21,125 @@ const useStyles = makeStyles((theme) => ({
 
 export default function DateAndTimePickers(props) {
   const classes = useStyles();
-  const [date, setDate] = useState('');
-  const [hour, setHour] = useState('');
-  const [pickerDate, setPickerDate] = useState(new Date());
   const { doctor, onAppointmentAdded, user } = props;
+  const [date, setDate] = useState(new Date());
+  const [vacantHours, setVacantHours] = useState([]);
+  const [time, setTime] = React.useState("");
 
-  // set the date and time to the state, and also pickerDate to show the selected value on the dialog box
   const handleDatePicked = (date) => {
-    const [month, day, year] = date.toLocaleDateString().split("/");
-    const [hour, minute] = date.toLocaleTimeString().split(/:| /);
-    const formattedDate = `${day}/${month}/${year}`;
-    const formattedHour = `${hour}:${minute}`;
-    setDate(formattedDate);
-    setHour(formattedHour);
-    setPickerDate(date);
-  }
+    setDate(date);
+    let hours = availableTime(doctor, date);
+    setVacantHours(hours);
+  };
 
-  // adds the new appointment to the database and calls the onAppointmentAdded method to update de list of appointments on App.js
+  //filters the not already scheduled times of the selected day, to display on the Time component
+  const availableTime = (medic, date) => {
+    let todayAppoint = appointments.filter(appointment => getFormattedDate(appointment.date) === getFormattedDate(date) && appointment.doctor === medic.name);
+    let todayBusyHours = todayAppoint.map(appoint => getFormattedHour(appoint.date));
+    return availableHours.filter(hour => !todayBusyHours.includes(hour.time));
+  };
+
+  // double checks if appointment is not duplicate, and adds 
+  // the new appointment to the database - calling the onAppointmentAdded method to update the list of appointments on App.js
   const handleSave = () => {
+    console.log("handle save")
+
     const appointment = {
-      id: appointments[appointments.length - 1].id + 1,
+      id: appointments.length > 0 ? appointments[appointments.length - 1].id + 1 : 1,
       name: user.name,
       doctor: doctor.name,
       field: doctor.specialty,
       date: date,
-      hour: hour
+      time: time
+    }
+    const uniqueAppoint = appointments.filter(appoint => {
+      return appoint.doctor === appointment.doctor && appoint.date === appointment.date
+    })
+    if (uniqueAppoint.length === 0) {
+      appointments.push(appointment);
+      onAppointmentAdded(appointments);
+      props.onClose();
     }
 
-    appointments.push(appointment);
-    onAppointmentAdded(appointments);
-    props.onClose();
+  }
+
+  const handleChange = (event) => {
+    setTime(event.target.value);
+    console.log(event.target.value)
+  };
+
+  // disable weekends and today's date
+  const disabledDates = (date) => {
+    const today = new Date();
+    return date.getDay() === 0 || date.getDay() === 6 || date === today;
   }
 
   return (
-    <form className={classes.container} noValidate>
-      <DateTimePicker
-        InputLabelProps={{
-          shrink: true,
-        }}
-        label="Next appointment"
-        className={classes.textField}
-        onChange={handleDatePicked}
-        disablePast
-        minutesStep={30}
-        value={pickerDate}
-      />
-      <Button style={{margin: 2}} variant="contained" color="inherit" onClick={handleSave}>
-        Save
+    <form className={classes.container} noValidate style={{ display: "flex", flexWrap: "wrap" }}>
+      <Grid container spacing={3}>
+
+        <Grid item xs={12}>
+
+          <DatePicker
+            InputLabelProps={{
+              shrink: true,
+            }}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <IconButton>
+                    <CalendarToday />
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
+            format="dd/MM/yyyy"
+            label="Next appointment"
+            className={classes.textField}
+            onChange={handleDatePicked}
+            shouldDisableDate={disabledDates}
+            disablePast
+            value={date}
+            fullWidth
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <TextField
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <IconButton>
+                  <Alarm />
+                </IconButton>
+              </InputAdornment>
+            ),
+          }}
+            id="select-time"
+            select
+            className={classes.textField}
+            label="Appointment time"
+            value={time}
+            onChange={handleChange}
+            helperText="Please select a valid date first"
+          >
+            {vacantHours.map((option) => (
+              <MenuItem key={option.id} value={option.time}>
+                {option.time}
+              </MenuItem>
+            ))}
+          </TextField>
+        </Grid>
+        <Grid item>
+          <Button variant="contained" color="secondary" onClick={props.onClose}>
+            Close
       </Button>
-      <Button style={{margin: 2}} variant="contained" color="secondary" onClick={props.onClose}>
-        Close
+        </Grid>
+        <Grid item>
+          <Button variant="contained" color="inherit" onClick={handleSave}>
+            Save
       </Button>
+        </Grid>
+      </Grid>
     </form>
   );
 }
