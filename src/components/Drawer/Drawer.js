@@ -62,13 +62,17 @@ function RespDrawer(props) {
     setMobileOpen(!mobileOpen);
   };
 
+  const closeMobileDrawer = () => {
+    if (mobileOpen) setMobileOpen(false);
+  };
+
   const drawer = (
     <div>
       <div className={classes.toolbar} />
       <Divider />
       <List>
         <Link to={'/dashboard/doctors'} style={{ color: 'inherit', textDecoration: 'none' }}>
-          <ListItem button>
+          <ListItem button onClick={closeMobileDrawer}>
             <ListItemIcon>
               <People />
             </ListItemIcon>
@@ -76,7 +80,7 @@ function RespDrawer(props) {
           </ListItem>
         </Link>
         <Link to={'/dashboard/appointments'} style={{ color: 'inherit', textDecoration: 'none' }}>
-          <ListItem button>
+          <ListItem button onClick={closeMobileDrawer}>
             <ListItemIcon>
               <Event />
             </ListItemIcon>
